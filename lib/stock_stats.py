@@ -1,4 +1,6 @@
 import math
+import numpy as np
+from datetime import datetime
 
 # Calculate standard deviation of return & mean
 # 1, 3, 5, 10, 20 year
@@ -16,10 +18,10 @@ class StockStats:
 	def compute_annual_close(self, v):
 		prices = {}
 		for l in v:
-			date = l[5][1]
-			close = l[0]
+			date = datetime.strptime(l[0], '%Y-%M-%d')
+			close = float(l[1])
 			if date.year in prices:
-				cur = averages[date.year]
+				cur = prices[date.year]
 				prices[date.year] = cur if (date < cur[1]) else (close, date)
 			else:
 				prices[date.year] = (close, date)
