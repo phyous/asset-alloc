@@ -9,10 +9,14 @@ class StockStats:
 	YEAR_RANGES = [1, 3, 5, 10, 20]
 
 	def __init__(self, vals):
-		self.vals = self.compute_annual_close(vals)
+		self.vals = vals
+		self.annual_close = self.compute_annual_close(vals)
 		self.annual_return_rates = self.compute_annual_return_rates()
 		self.annualized_return_rates = self.compute_annualized_return_rates()
 		self.std = self.compute_stdevs()
+
+	def earlierst_value(self):
+		return self.vals[0][0]
 
 	# get the closing price for every year
 	def compute_annual_close(self, v):
@@ -29,7 +33,7 @@ class StockStats:
 
 	# compute average return for every year
 	def compute_annual_return_rates(self):
-		return [(self.vals[val][0], (self.vals[val][1] - self.vals[val-1][1])  / self.vals[val-1][1]) for val in range(1, len(self.vals))]
+		return [(self.annual_close[val][0], (self.annual_close[val][1] - self.annual_close[val-1][1])  / self.annual_close[val-1][1]) for val in range(1, len(self.annual_close))]
 
 	# compute the annualized rates for the last n in an array
 	def annualized_rates(self, vs, n):
